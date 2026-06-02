@@ -1,7 +1,12 @@
 import os
 import subprocess
-os.chdir(os.path.expanduser('~'))
-ver = "0.0.1"
+import logo
+ver = "0.1.0"
+def startup():
+    os.chdir(os.path.expanduser('~'))
+    clear_screen()
+    print(logo.name)
+
 def echo(echoq):
     print(input(f"{echoq}:   "))
 def cd():
@@ -9,7 +14,7 @@ def cd():
         to = input("Enter dir name:   ")
         os.chdir(to)
         print(f"Changed directory to: {os.getcwd()}")
-    except FileNotFoundError:
+    except (FileNotFoundError,NotADirectoryError):
         print('Not a real destination')
 
 def clear_screen():
@@ -37,19 +42,12 @@ def ls():
 
     except Exception as e:
         print(f"Error reading directory: {e}")
-clear_screen()
-print("=" * 40)
-print(r"""    __  ___      ___       __            _______ __        __  ___                                 
-   /  |/  /___ _/ (_)___  / /______ _   / ____(_) /__     /  |/  /___ _____  ____ _____ ____  _____
-  / /|_/ / __ `/ / / __ \/ //_/ __ `/  / /_  / / / _ \   / /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ ___/
- / /  / / /_/ / / / / / / ,< / /_/ /  / __/ / / /  __/  / /  / / /_/ / / / / /_/ / /_/ /  __/ /    
-/_/  /_/\__,_/_/_/_/ /_/_/|_|\__,_/  /_/   /_/_/\___/  /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/     
-                                                                                /____/             """)
+startup()
 while True:
     print("=" * 40)
     print(f"[e] Echo\t[cd] Change Directiory\t[q] Quit\t[ver] Show current version\n[clr] Clear Screen\t[ls] List Directory")
     print("=" * 40)
-    answer = input("Pick an Command:   ").lower().strip()
+    answer = input("Pick a Command:   ").lower().strip()
 
     if answer == "ver":
         print(ver)
@@ -61,14 +59,8 @@ while True:
         break
     elif answer == "clr":
         clear_screen()
-        print(r"""    __  ___      ___       __            _______ __        __  ___                                 
-   /  |/  /___ _/ (_)___  / /______ _   / ____(_) /__     /  |/  /___ _____  ____ _____ ____  _____
-  / /|_/ / __ `/ / / __ \/ //_/ __ `/  / /_  / / / _ \   / /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ ___/
- / /  / / /_/ / / / / / / ,< / /_/ /  / __/ / / /  __/  / /  / / /_/ / / / / /_/ / /_/ /  __/ /    
-/_/  /_/\__,_/_/_/_/ /_/_/|_|\__,_/  /_/   /_/_/\___/  /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/     
-                                                                                /____/             """)
+        print(logo.name)
     elif answer == "ls":
-        clear_screen()
         ls()
     else:
         print("Unknown command")
